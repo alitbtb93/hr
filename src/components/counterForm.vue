@@ -1,7 +1,7 @@
 <template>
   <v-card class="pb-5 pt-10 px-10 mt-5">
     <v-row>
-      <v-col cols="12" md="9">
+      <v-col cols="12" sm="9">
         <v-text-field
           @input="$v.step.$touch"
           :error-messages="errorMessages"
@@ -10,7 +10,7 @@
           outlined
         ></v-text-field>
       </v-col>
-      <v-col cols="12" md="3">
+      <v-col cols="12" sm="3">
         <v-btn
           :disabled="$v.$invalid"
           @click="addCounter"
@@ -26,8 +26,9 @@
 
 
 <script>
+// import vuelidate built in validators
 import { required, decimal } from "vuelidate/lib/validators";
-// custom validation to ignore float with more than one decimal
+// custom validation to ignore float with more than one decimal point
 var customValidation = value => {
   let stringValue = value.toString();
   if (stringValue.includes(".")) {
@@ -52,15 +53,18 @@ export default {
     };
   },
   methods: {
+    // for every add counter click push a new counter object in counters array
     addCounter() {
         this.counters.push({
             step: parseFloat(this.step),
             value:parseFloat(0)
         })
+        // pass counters data to parent component with counters event
         this.$emit("counters",this.counters)
     }
   },
   computed: {
+    // computed function for returning custom error messages
     errorMessages() {
       const errors = [];
       if (!this.$v.step.$dirty) return errors;
@@ -76,6 +80,7 @@ export default {
       return errors;
     }
   },
+  // validations for text input with use of vuelidate library and a custom validation rule
   validations: {
     step: {
       required,
@@ -85,6 +90,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-</style>
