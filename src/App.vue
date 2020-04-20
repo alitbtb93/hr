@@ -1,28 +1,36 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-container>
+     <counterForm @counters="addCounters"/>
+     <v-row>
+       <v-col class="my-5" v-for="(counter,index) in counters" :key="index" cols="12" md="3">
+         <counterBox :counter="counter"/>
+       </v-col>
+     </v-row>
+    </v-container>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import counterForm from './components/counterForm'
+import counterBox from './components/counterBox'
 export default {
-  name: 'App',
+  name: "App",
+  data(){
+    return{
+      counters:null
+    }
+  },
   components: {
-    HelloWorld
+    counterForm,
+    counterBox
+  },
+  methods:{
+    addCounters(value){
+      this.counters=value
+    }
   }
-}
-</script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  
+};
+</script>
